@@ -36,7 +36,8 @@ exports.register = async (req, res) => {
 
         return res.status(200).json({
             message: 'Success!',
-            apiToken: token
+            apiToken: token,
+            type: type
         });
 
     } catch (err) {
@@ -73,7 +74,8 @@ exports.login = async (req, res) => {
 
             return res.status(200).json({
                 message: "Successfully logged In!",
-                apiToken: token
+                apiToken: token,
+                type: user_doc.type
             });
         }
 
@@ -89,3 +91,10 @@ exports.login = async (req, res) => {
         });
     }
 }
+
+/*
+exports.newInfo = async (req, res) => {
+    res.status(200).json({
+        req: req.user
+    })
+}*/
