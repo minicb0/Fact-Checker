@@ -17,8 +17,7 @@ const postSchema = new mongoose.Schema({
         ref: 'Vote'
     }],
     endTime: {
-        type: Date,
-        required: true
+        type: Date
     }
 
 })
