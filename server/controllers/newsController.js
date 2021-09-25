@@ -3,6 +3,9 @@ const Posts = require('../models/post')
 exports.closedNews = async(req, res) => {
     try {
         const closedPosts = await Posts.find({ status: { $in: ['verified', 'fake'] } })
+            .populate('clientId', '-password')
+            .populate('assignedJournalists', '-password')
+            .populate('votes')
         res.status(200).json({
             posts: closedPosts
         })
