@@ -18,7 +18,8 @@ const voteSchema = new mongoose.Schema({
             type: Number,
             max: 5
         },
-        comment: String
-    }
+
+    },
+    comment: String
 })
 module.exports = mongoose.model('Vote', voteSchema)
