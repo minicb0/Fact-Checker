@@ -90,3 +90,32 @@ exports.closeNews = async(req, res) => {
         });
     }
 }
+
+exports.addJournalist = async(req, res) => {
+    const { postId } = req.body;
+
+    try {
+        const user_doc = await User.findOne({'_id': req.user.user_id}).lean().exec();
+
+        if(!user_doc) {
+            return res.status(400).json({
+                message: "invalid operation",
+            })
+        }
+
+        await Posts.updateOne({ '_id': postId }, { $push: { 'assignedJournalists': req.user.user_id }});
+
+        return res.status(200).json({
+            message: 'added journalist to the post!',
+        });
+
+    } catch (err) {
+        console.log(err);
+        return res.status(500).json({
+            message: 'Internal server error!',
+            data: err,
+        });
+    }
+
+
+}
