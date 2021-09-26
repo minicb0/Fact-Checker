@@ -18,7 +18,7 @@ exports.register = async(req, res) => {
     const encryptedPassword = await bcrypt.hash(password, 10);
 
     try {
-        const user_doc = await User.find({ 'email': email }).lean().exec();
+        const user_doc = await User.find({'mail' : email}).lean().exec();
 
         if (user_doc.length !== 0) {
             return res.status(400).json({

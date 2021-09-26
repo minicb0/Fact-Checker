@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
 import Background from '../../assets/images/wall.jpg';
-import { ApiService } from '../../api.services';
 
 import {
   Button,
@@ -13,6 +12,8 @@ import {
   Divider,
   InputAdornment,
   IconButton,
+  Select,
+  MenuItem,
   Link
 } from '@material-ui/core'
 
@@ -22,29 +23,30 @@ import VisibilityOff from '@material-ui/icons/VisibilityOff'
 import { useStyles } from './styles'
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import { ApiService } from '../../api.services';
 
-export const Auth = () => {
+export const Register = () => {
   const classes = useStyles()
   const history = useHistory()
 
-  // state used for toggling the view of the password textfield
   const [showPassword, setShowPassword] = useState(false)
-
-  // state used to set the username
   const [email, setEmail] = useState('')
-
-  // state used to set the password
+  const [name, setName] = useState('')
+  const [type, setType] = useState('client')
   const [password, setPassword] = useState('')
 
-  const Login = async () => {
-    const result = {
+  const RegisterUser = async () => {
+      //lobbing validation 
+      const result = {
           email: email.trim(),
+          name: name.trim(), 
+          type,
           password: password.trim()
       };
 
       try {
 
-        const res = await ApiService.login(result);
+        const res = await ApiService.register(result);
 
         if (res.status === 200){
             localStorage.setItem('apiToken', res.data.apiToken);
@@ -86,7 +88,7 @@ export const Auth = () => {
         >
 
           <Typography component="h1" variant="h4">
-            LOGIN
+            REGISTER
           </Typography>
 
           <Divider light />
@@ -98,6 +100,20 @@ export const Auth = () => {
             justify="space-evenly"
             alignItems="flex-end"
           >
+            <TextField
+              className={classes.input}
+              variant="filled"
+              margin="normal"
+              required
+              fullWidth
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              id="name"
+              label="Name"
+              name="name"
+              autoComplete="name"
+              autoFocus
+            />
 
             <TextField
               className={classes.input}
@@ -142,6 +158,18 @@ export const Auth = () => {
               }}
             />
 
+            <Select
+              id="type"
+              value={type}
+              variant="filled"
+              fullWidth
+              onChange={(e) => setType(e.target.value)}
+              label="Type"
+            >
+                <MenuItem value={'client'}>Client</MenuItem>
+                <MenuItem value={'journalist'}>Journalist</MenuItem>
+            </Select>
+
           </Grid>
           <Divider light />
 
@@ -149,14 +177,14 @@ export const Auth = () => {
             aria-label="submit"
             type="submit"
             variant="text"
-            color="secondary"
+            color="primary"
             className={classes.submit}
-            onClick={Login}
+            onClick={RegisterUser}
           >
-            LOGIN
+            REGISTER
           </Button>
-          <Link href="/register" variant="body2">
-            new user? register!
+          <Link href="/login" variant="body2">
+            already registered? login!
           </Link>
         </Grid>
       </div>

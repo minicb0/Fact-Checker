@@ -4,6 +4,7 @@ import { ThemeProvider } from '@material-ui/core/styles'
 import { theme } from './theme'
 import { ToastContainer } from 'react-toastify'
 import { Auth } from './pages/login'
+import { Register } from './pages/register'
 
 export const App = () => {
   return (
@@ -23,6 +24,7 @@ export const App = () => {
         <Switch>
             <Redirect exact from="/" to="/login" />
             <Route exact path="/login" component={Auth} />
+            <Route exact path="/register" component={Register} />
         </Switch>
       </Router>
     </ThemeProvider>
