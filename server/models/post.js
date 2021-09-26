@@ -13,7 +13,7 @@ const postSchema = new mongoose.Schema({
     title: String,
     status: String,
     votes: [{
-        type: mongoose.Schema.Types.ObjectId,
+        type: mongoose.Schema.Types.String,
         ref: 'Vote'
     }],
     endTime: {
