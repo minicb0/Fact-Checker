@@ -12,7 +12,7 @@ exports.votePost = async(req, res) => {
                 const { rating, comment } = req.body
                 const voteId = crypto.randomBytes(64).toString('hex')
                 const newVote = new Vote()
-                newVote._id = voteId
+
                 newVote.JournalistId = userId
                 newVote.postId = postId
                 newVote.rating = rating
@@ -21,7 +21,7 @@ exports.votePost = async(req, res) => {
 
                 let post = await Post.findById(postId)
                 let votesCasted = await post.votes
-                votesCasted.unshift(voteId)
+                votesCasted.unshift(newVote._id)
                 await Vote.updateOne({ _id: postId }, { votes: votesCasted })
                 res.status(201).json({
                     message: 'vote casted successfully'
