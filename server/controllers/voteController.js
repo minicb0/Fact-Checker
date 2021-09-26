@@ -1,7 +1,7 @@
 const Vote = require('../models/vote')
 const Post = require('../models/post')
 const User = require('../models/user')
-const crypto = require('crypto')
+
 exports.votePost = async(req, res) => {
     try {
         const postId = req.params.id
@@ -10,7 +10,7 @@ exports.votePost = async(req, res) => {
         if (postId) {
             if (Type === 'journalist') {
                 const { rating, comment } = req.body
-                const voteId = crypto.randomBytes(64).toString('hex')
+
                 const newVote = new Vote()
 
                 newVote.JournalistId = userId
