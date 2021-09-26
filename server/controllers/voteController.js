@@ -6,7 +6,7 @@ exports.votePost = async(req, res) => {
     try {
         const postId = req.params.id
         const userId = req.user.user_id
-        const { Type } = User.find({ _id: userId })
+        const { Type } = User.findById(userId)
         if (postId) {
             if (Type === 'journalist') {
                 const { rating, comment } = req.body
