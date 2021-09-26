@@ -18,7 +18,6 @@ const postSchema = new mongoose.Schema({
     }],
     endTime: {
         type: Date,
-        required: true
     }
 
 })

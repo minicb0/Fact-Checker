@@ -10,12 +10,11 @@ export const ApiService = {
 		return axios.default.post(API_URL + 'api/register', data);
 	},
 
-    /*
-	getProject: (data) => {
-		return axios.get(config.API_URL + 'api/projects/' + data, {
+	getActiveFeeds: (data) => {
+		return axios.get(API_URL + 'api/dashboard/active', {
 			headers: {
-				Authorization: 'Bearer '.concat(localStorage.getItem('auth-token')),
+				Authorization: 'Bearer '.concat(localStorage.getItem('apiToken')),
 			},
 		});
-	},*/
+	},
 };

@@ -1,11 +1,12 @@
 const express = require('express');
-const { createNews, renderNews, closedNews, activeNews } = require('../controllers/newsController');
+const { createNews, closedNews, activeNews } = require('../controllers/newsController');
+const { verifyToken } = require('../middleware/auth');
 
 const router = express.Router();
 
-router.post('/news/check', createNews);
-router.get('/news/:id', renderNews)
 router.get('/dashboard/closed', closedNews)
-router.get('/dashboard/active', activeNews)
+router.get('/dashboard/active', verifyToken, activeNews)
+router.post('/createNews', verifyToken, createNews)
+
 
 module.exports = router;
