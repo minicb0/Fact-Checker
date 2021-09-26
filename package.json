@@ -1,0 +1,24 @@
+{
+  "name": "fact-checker",
+  "version": "1.0.0",
+  "description": "Fake news has existed since the dawn of the printing press but in the age of internet and social media, it has found a tremendous application. Manipulation of algorithms of social media and search engines—to reach large audiences and mislead news consumers is a global trend now. `Fact-Checker` is an attempt to minimize the fake news that enters social media.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "setup": "concurrently \"npm install\" \"cd client && npm install\" \"cd server && npm install\"",
+    "serve": "concurrently \"cd client && npm run start\" -c \"bgBlue.bold,bgMagenta.bold,bgGreen.bold\" \"cd server && node server.js\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/minicb0/Fact-Checker.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/minicb0/Fact-Checker/issues"
+  },
+  "homepage": "https://github.com/minicb0/Fact-Checker#readme",
+  "dependencies": {
+    "concurrently": "^6.2.1"
+  }
+}
