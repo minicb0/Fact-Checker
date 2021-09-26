@@ -55,7 +55,7 @@ export const Auth = () => {
         }
         
       } catch (err) {
-          toast.error(err.message);
+          toast.error(err.response.message);
           console.log(err);    
       }
   }

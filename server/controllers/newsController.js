@@ -1,5 +1,6 @@
 const Posts = require('../models/post')
 const User = require('../models/user')
+const Vote = require('../models/vote')
 
 exports.closedNews = async(req, res) => {
     try {
@@ -16,13 +17,24 @@ exports.closedNews = async(req, res) => {
         })
     }
 }
-exports.activeNews = async(req, res) => {
+exports.userActiveNews = async(req, res) => {
     try {
-        const activePosts = await Posts.find({ status: "active" })
+        const activePosts = await Posts.find({ status: "active", clientId: req.user.user_id })
+        .populate('assignedJournalists', '-password')
+        .populate('votes').exec();
+
+        if(!activePosts){
+            return res.status(400).json({
+                message: "no active reports of the user!"
+            })
+        }
+
         res.status(200).json({
-            posts: activePosts
+            message: "success",
+            data: activePosts
         })
     } catch (error) {
+        console.log(error);
         res.status(500).json({
             message: "server error"
         })
