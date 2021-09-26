@@ -13,7 +13,7 @@ exports.votePost = async(req, res) => {
                 const voteId = crypto.randomBytes(64).toString('hex')
                 const newVote = new Vote()
                 newVote._id = voteId
-                newVote.JournalistId = req.user.user_id
+                newVote.JournalistId = userId
                 newVote.postId = postId
                 newVote.rating = rating
                 newVote.comment = comment
