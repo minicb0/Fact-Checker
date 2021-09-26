@@ -66,8 +66,6 @@ exports.login = async(req, res) => {
     try {
         const user_doc = await User.findOne({ 'mail': email }).lean().exec();
 
-        console.log(user_doc)
-
         if (user_doc && (await bcrypt.compare(password, user_doc.password))) {
 
             const token = jwt.sign({ user_id: user_doc._id, email },

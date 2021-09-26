@@ -46,6 +46,15 @@ export const useStyles = makeStyles((theme) => ({
       width: '100%'
     }
   },
+  submit1: {
+    margin: theme.spacing(3, 0, 2),
+    boxShadow: shadow,
+    width: '10%',
+    backgroundColor: '#423e3e',
+    [theme.breakpoints.down('sm')]: {
+      width: '100%'
+    }
+  },
   card: {
     background: '#555555bf'
   },

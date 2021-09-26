@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
 import Background from '../../assets/images/wall.jpg';
 import { ApiService } from '../../api.services';
-import StarIcon from '@material-ui/icons/Star';
 
 import {
   Button,
@@ -62,6 +61,34 @@ export const Dashboard = () => {
         }
         
     }
+  }
+
+  const postVote = async (postId) => {
+      const up = update;
+      const result = {
+          JournalistId: id.trim(),
+          postId: postId,
+          rating: +rating,
+          comment: comment
+      }
+
+      console.log(result)
+
+      try {
+        const res = await ApiService.postVote(result);
+
+        if (res.status === 200){
+            toast.success(res.data.message);
+            setUpdate(!up);
+            setRating('')
+            setComment('')
+        }
+
+      } catch (err) {
+          toast.error(err.message);
+          console.log(err);
+      }
+
   }
 
   const createNews = async () => {
@@ -154,6 +181,19 @@ export const Dashboard = () => {
     <Container component="main" maxWidth="ls">
       <img src={Background} className={classes.bgimg} alt="bgimg" />
       <CssBaseline />
+      <Button
+        aria-label="submit"
+        type="submit"
+        variant="text"
+        color="primary"
+        className={classes.submit1}
+        onClick={() => {
+            localStorage.clear();
+            history.push('/login')
+        }}
+    >
+        LOGOUT
+    </Button>
       
       <div className={classes.paper}>
           {type === 'client' ? (
@@ -255,6 +295,7 @@ export const Dashboard = () => {
                             {elem.assignedJournalists.map((data) => {
                                 return (
                                     <Chip
+                                    className={classes.chip}
                                     label={data.name}
                                     variant="default"
                                     color="primary"
@@ -327,7 +368,15 @@ export const Dashboard = () => {
                             })}
                             {!elem.show ? (<Button size="middle" onClick={() => join(elem._id)}>Join</Button>) : (
                                 <>
-                                <TextField
+                                {elem.votes.forEach((item)=> {
+                                    if (item._id === id) {
+                                        elem.hide = true;
+                                    }
+                                })}
+
+                                {elem.hide ? (
+                                    <>
+                                    <TextField
                                 className={classes.input}
                                 variant="filled"
                                 margin="normal"
@@ -355,6 +404,20 @@ export const Dashboard = () => {
                                 name="rating"
                                 autoFocus
                                 />
+
+                                <Button
+                                    aria-label="submit"
+                                    type="submit"
+                                    variant="text"
+                                    color="primary"
+                                    className={classes.submit}
+                                    onClick={() => postVote(elem._id)}
+                                >
+                                    Create Vote
+                                </Button>
+                                </>
+
+                                ): ""}
                                 
                                 </>
 

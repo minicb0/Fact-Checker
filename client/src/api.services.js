@@ -48,5 +48,13 @@ export const ApiService = {
 				Authorization: 'Bearer '.concat(localStorage.getItem('apiToken'))
 			},
 		});
+	},
+
+	postVote: (data) => {
+		return axios.default.post(API_URL + 'api/postVote', data, {
+			headers: {
+				Authorization: 'Bearer '.concat(localStorage.getItem('apiToken'))
+			},
+		});
 	}
 };

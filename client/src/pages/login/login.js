@@ -150,7 +150,7 @@ export const Auth = () => {
             aria-label="submit"
             type="submit"
             variant="text"
-            color="secondary"
+            color="primary"
             className={classes.submit}
             onClick={Login}
           >

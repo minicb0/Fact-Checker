@@ -10,6 +10,7 @@ app.use(cors())
 app.use(express.json());
 app.use('/api', require('./routes/userRoute'));
 app.use('/api', require('./routes/newsRoute'));
+app.use('/api', require('./routes/voteRoute'));
 
 (
     async () => {
