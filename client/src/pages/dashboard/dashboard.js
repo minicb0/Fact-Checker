@@ -68,7 +68,7 @@ export const Dashboard = () => {
       const result = {
           JournalistId: id.trim(),
           postId: postId,
-          rating: +rating,
+          rating: rating,
           comment: comment
       }
 
@@ -302,7 +302,23 @@ export const Dashboard = () => {
                                     />
                                 );
                             })}
+
                             </ListItem>
+                            <ListItem>
+                            {elem.votes.map((data) => {
+                                console.log(data)
+                                return (
+                                    <Chip
+                                    className={classes.chip}
+                                    label={`${data.rating || 1} :: ${data.comment}`}
+                                    variant="outlined"
+                                
+                                    />
+                                );
+                            })}
+
+                            </ListItem>
+                            
                             </center>
 
                             <Typography variant="caption" gutterBottom>
@@ -374,7 +390,7 @@ export const Dashboard = () => {
                                     }
                                 })}
 
-                                {elem.hide ? (
+                                {!elem.hide ? (
                                     <>
                                     <TextField
                                 className={classes.input}

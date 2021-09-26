@@ -10,15 +10,7 @@ const voteSchema = new mongoose.Schema({
         ref: 'Post'
     },
     rating: {
-        min: {
-            type: Number,
-            min: 1
-        },
-        max: {
-            type: Number,
-            max: 5
-        },
-
+        type: Number,
     },
     comment: String
 })
