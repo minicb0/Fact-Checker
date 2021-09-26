@@ -1,5 +1,17 @@
 # Fact-Checker
 
+This repo is to hold the task of ShellHacks Hackathon. We  have made this project under the sponsor challenge by MITRE. A app based on mis/disinformaton.
+
+## The Problem Statement by MITRE
+
+Pick a Problem: Health Access and Delivery, National Security or Mis/Dis Information by MITRE
+Description: Hack on any topic you’re passionate about related to the following subject areas (health care access, national security, or online mis/disinformation)-- note: this hack can be anything from building an app to developing a website, or another programmable entity.
+
+## The Project Idea
+
+A fact checking web platform where the public and media outlets can collaborate with trained journalism students who are ready to check the overload of unconfirmed information, before having it published.
+[Youtube demo video link for the project](https://youtu.be/QoKA_FftY2o)
+
 ## Inspiration
 
 Fake news has existed since the dawn of the printing press but in the age of internet and
@@ -20,6 +32,15 @@ for the journalist students:
 - See active news information and join any project.
 - Rate and comment on any news info.
 - See the number of people are working on a news project.
+
+## Checklist of features included in this project
+
+- [x] Registration of clients and Journalists.
+- [x] Posting a news that the client wants to check if the news is a hoax or not.
+- [x] Journalists are assigned for each news so the client knows that who all are working on the news.
+- [x] Journalists can comment on the news post for the reviews and can vote for the post if the news is a hoax or not.
+- [x] Clients can close the post after they got the required review from the Journalists.
+- [x] A dashboard page to see all the news post which are posted and journalists can start reviewing the news based on it.
 
 ## Installation Guide
 
