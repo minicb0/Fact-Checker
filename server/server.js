@@ -9,16 +9,18 @@ const port = process.env.PORT;
 app.use(cors())
 app.use(express.json());
 app.use('/api', require('./routes/userRoute'));
+app.use('/api', require('./routes/newsRoute'));
+
 
 (
-    async () => {
+    async() => {
         try {
             await mongoose.connect(process.env.db_url, {
                 useNewUrlParser: true,
                 useUnifiedTopology: true,
             });
 
-            console.log('connected to the database');      
+            console.log('connected to the database');
         } catch (error) {
             console.log(error);
         }
