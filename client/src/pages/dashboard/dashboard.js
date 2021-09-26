@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
 import Background from '../../assets/images/wall.jpg';
 import { ApiService } from '../../api.services';
+import StarIcon from '@material-ui/icons/Star';
 
 import {
   Button,
@@ -29,11 +30,39 @@ export const Dashboard = () => {
   const history = useHistory()
 
   const type = localStorage.getItem('type');
+  const id = localStorage.getItem('id');
+
   const [content, setContent] = useState('')
   const [title, setTitle] = useState('')
   const [status, setStatus] = useState('')
+  const [comment, setComment] = useState('')
+  const [rating, setRating] = useState(1)
   const [activePosts, setActivePosts] = useState([])
+  const [allactivePosts, setallActivePosts] = useState([])
   const [update, setUpdate] = useState(true)
+
+  const join = async(id) => {
+      const up = update;
+      const result = {
+          postId : id.trim()
+      }
+      try {
+        const res = await ApiService.addJournalist(result);
+
+        if (res.status === 200){
+            toast.success(res.data.message);
+            setUpdate(!up);
+        }
+
+    } catch (err) {
+        console.log(err);
+        if (err.response.status === 401) {
+            localStorage.clear();
+            history.push('/login');
+        }
+        
+    }
+  }
 
   const createNews = async () => {
       const up = update;
@@ -86,31 +115,49 @@ export const Dashboard = () => {
   useEffect(() => {
 
     const fetchActiveFeeds = async() => {
-        try {
-            const res = await ApiService.getActiveFeeds();
-            console.log(res.data);
-            setActivePosts(res.data.data)
+        if (type === 'client') {
+            try {
+                const res = await ApiService.getActiveFeeds();
 
-        } catch (err) {
-            console.log(err);
-            if (err.response.status === 401) {
-                localStorage.clear();
-                history.push('/login');
+                setActivePosts(res.data.data)
+            } catch (err) {
+                console.log(err);
+                if (err.response.status === 401) {
+                    localStorage.clear();
+                    history.push('/login');
+                }
+                
             }
-            
+
+        } else {
+            try {
+                const res1 = await ApiService.getAllActiveFeeds();
+
+                setallActivePosts(res1.data.data)
+
+            } catch (err) {
+                console.log(err);
+                if (err.response.status === 401) {
+                    localStorage.clear();
+                    history.push('/login');
+                }
+                
+            }
+
         }
+        
     }
     fetchActiveFeeds();
   }, [update])
 
   return (
-    
     <Container component="main" maxWidth="ls">
       <img src={Background} className={classes.bgimg} alt="bgimg" />
       <CssBaseline />
       
       <div className={classes.paper}>
-           
+          {type === 'client' ? (
+              <>
         <Grid
           className={classes.form1}
           container
@@ -195,7 +242,6 @@ export const Dashboard = () => {
          justify="flex-start"
          alignItems="flex-start"
         >
-            
 
             {activePosts.map(elem => (
                 <Grid item xs={12} sm={6} md={6} key={elem._id}>
@@ -230,6 +276,102 @@ export const Dashboard = () => {
                 </Grid>
             ))}
         </Grid>
+        </>
+          ) : (
+              <>
+              
+        <Grid
+         classes={classes.posts}
+         container
+         spacing={6}
+         direction="row"
+         justify="flex-start"
+         alignItems="flex-start"
+        >
+            
+
+            {allactivePosts.map(elem => (
+                <Grid item xs={12} sm={6} md={6} key={elem._id}>
+                    <Card className={classes.form}>
+                        <CardHeader
+                            title={elem.title}
+                        />
+                        <CardContent>
+                            <center>
+                            <ListItem>
+                            {elem.assignedJournalists.map((data) => {
+                                if (data.id === id) {
+                                    elem.show = true;
+                                }
+                                return (
+                                    <Chip
+                                    className={classes.chip}
+                                    label={data.name}
+                                    variant="default"
+                                    color="primary"
+                                    />
+                                );
+                            })}
+                            </ListItem>
+                            </center>
+
+                            <Typography variant="caption" gutterBottom>
+                                {elem.content}
+                            </Typography>
+                        </CardContent>
+                        <CardActions>
+                            {elem.assignedJournalists.forEach(dat => {
+                                if (dat._id === id){
+                                    elem.show = true;
+                                }
+                            })}
+                            {!elem.show ? (<Button size="middle" onClick={() => join(elem._id)}>Join</Button>) : (
+                                <>
+                                <TextField
+                                className={classes.input}
+                                variant="filled"
+                                margin="normal"
+                                required
+                                fullWidth
+                                value={comment}
+                                onChange={(e) => setComment(e.target.value)}
+                                id="comment"
+                                label="Comment"
+                                name="commment"
+                                autoFocus
+                                />
+
+                                <TextField
+                                className={classes.input}
+                                variant="filled"
+                                margin="normal"
+                                required
+                                fullWidth
+                                type="number"
+                                value={rating}
+                                onChange={(e) => setRating(e.target.value)}
+                                id="rating"
+                                label="Rate from 1-5 the credibility of the news"
+                                name="rating"
+                                autoFocus
+                                />
+                                
+                                </>
+
+                            )}
+                            
+                            
+                        </CardActions>
+
+                    </Card>
+                </Grid>
+            ))}
+        </Grid>
+
+              </>
+          )}
+           
+
       </div>
 
     </Container>

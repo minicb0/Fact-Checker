@@ -18,6 +18,14 @@ export const ApiService = {
 		});
 	},
 
+	getAllActiveFeeds: () => {
+		return axios.get(API_URL + 'api/activeNews', {
+			headers: {
+				Authorization: 'Bearer '.concat(localStorage.getItem('apiToken')),
+			},
+		});
+	},
+
 	createNews: (data) => {
 		return axios.default.post(API_URL + 'api/createNews', data, {
 			headers: {
@@ -33,4 +41,12 @@ export const ApiService = {
 			},
 		});
 	},
+
+	addJournalist: (data) => {
+		return axios.default.post(API_URL + 'api/addJournalist', data, {
+			headers: {
+				Authorization: 'Bearer '.concat(localStorage.getItem('apiToken'))
+			},
+		});
+	}
 };

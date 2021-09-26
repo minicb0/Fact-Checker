@@ -17,9 +17,29 @@ exports.closedNews = async(req, res) => {
         })
     }
 }
+
+exports.ActiveNews = async(req, res) => {
+    try {
+        const activePosts = await Posts.find({ status: "active"})
+        .populate('assignedJournalists', '-password')
+        .populate('votes').exec();
+
+        res.status(200).json({
+            message: "success",
+            data: activePosts
+        })
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            message: "server error"
+        })
+    }
+}
+
 exports.userActiveNews = async(req, res) => {
     try {
-        const activePosts = await Posts.find({ status: "active", clientId: req.user.user_id })
+        const activePosts = await Posts.find({ status: "active"})
+        .where('clientId').equals(req.user.user_id)
         .populate('assignedJournalists', '-password')
         .populate('votes').exec();
 

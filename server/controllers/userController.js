@@ -40,7 +40,8 @@ exports.register = async(req, res) => {
         return res.status(200).json({
             message: 'Success!',
             apiToken: token,
-            type: type
+            type: type,
+            id: created._id
         });
 
     } catch (err) {
@@ -63,7 +64,9 @@ exports.login = async(req, res) => {
     }
 
     try {
-        const user_doc = await User.findOne({ 'email': email }).lean().exec();
+        const user_doc = await User.findOne({ 'mail': email }).lean().exec();
+
+        console.log(user_doc)
 
         if (user_doc && (await bcrypt.compare(password, user_doc.password))) {
 
@@ -76,7 +79,8 @@ exports.login = async(req, res) => {
             return res.status(200).json({
                 message: "Successfully logged In!",
                 apiToken: token,
-                type: user_doc.type
+                type: user_doc.type,
+                id: user_doc._id
             });
         }
 

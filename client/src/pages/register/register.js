@@ -51,6 +51,7 @@ export const Register = () => {
         if (res.status === 200){
             localStorage.setItem('apiToken', res.data.apiToken);
             localStorage.setItem('type', res.data.type);
+            localStorage.setItem('id', res.data.id);
             toast.success(res.data.message);
 
             history.push('/dashboard');
