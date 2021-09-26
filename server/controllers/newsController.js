@@ -1,8 +1,9 @@
 const Posts = require('../models/post')
+const User = require('../models/user')
 
 exports.closedNews = async(req, res) => {
     try {
-        const closedPosts = await Posts.find({ status: { $in: ['verified', 'fake'] } })
+        const closedPosts = await Posts.find({ status: { $in: ['closed'] } })
             .populate('clientId', '-password')
             .populate('assignedJournalists', '-password')
             .populate('votes')
@@ -61,4 +62,31 @@ exports.createNews = async(req, res) => {
         
     }
 
+}
+
+exports.closeNews = async(req, res) => {
+    const { postId } = req.body;
+
+    try {
+        const user_doc = await User.findOne({'_id': req.user.user_id, 'status': 'active'}).lean().exec();
+
+        if(!user_doc) {
+            return res.status(400).json({
+                message: "invalid operation",
+            })
+        }
+
+        await Posts.updateOne({ '_id': postId }, { status: 'closed' });
+
+        return res.status(200).json({
+            message: 'Updated and closed!',
+        });
+
+    } catch (err) {
+        console.log(err);
+        return res.status(500).json({
+            message: 'Internal server error!',
+            data: err,
+        });
+    }
 }
